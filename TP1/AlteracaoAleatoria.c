@@ -25,9 +25,9 @@ void altAl(){
     int random_num2 = abs(rand()) % 26;
     char letter2 = 'a' + random_num2;
 
-    scanf("%[^\n]%*c", string/*[entrada]*/);
+    scanf("%[^\n]%*c", string);
 
-    if(isFim(string/*[entrada]*/)){
+    if(isFim(string)){
         return;
     } else {
         for(int i=0; i < strlen(string); i++){
