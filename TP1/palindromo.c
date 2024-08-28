@@ -51,5 +51,5 @@ int main() {
 
 
 
-    return 0; //retorna 0
+    return 0;
 }
