@@ -99,7 +99,7 @@ int main(){
 
     Pokemon pokedex[801];
 
-    FILE *file = fopen("pokemon.csv", "r");
+    FILE *file = fopen("/tmp/pokemon.csv", "r");
     char line[500];
     fgets(line, sizeof(line), file);
 
