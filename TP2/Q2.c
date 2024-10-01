@@ -1,4 +1,4 @@
-#include <stdlib.h>
+/*#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -30,7 +30,10 @@ bool lerEntrada(const char *entrada){
     }
 }
 
+
 int main(){
+
+    system("cls");
 
     Pokemon pokedex[801];
 
@@ -45,7 +48,7 @@ int main(){
 
             strcpy(pokedex[i].ntypes, "TWO");
 
-            for(int j=0; j<strlen(line)-1; j++){
+            for(int j=0; j<strlen(line)/2; j++){
                 if (line[j] == ',' && line[j+1] == ','){
                     strcpy(pokedex[i].ntypes, "ONE");
                 }
@@ -77,10 +80,18 @@ int main(){
             } else {
                 strcpy(pokedex[i].type2, "NULL");
             }
+            
+            char extraido[100];
+            const char *start = strchr(line, '[');
+            const char *end = strchr(line, ']');
+            start++;
+            int lenght = end - start;
+            
+            strncpy(extraido, start, lenght);
+            extraido[lenght] = '\0';
+            strcpy(pokedex[i].abls, extraido);
 
             token = strtok(NULL, "\"");
-            //token = strtok(NULL, "\"");
-            strcpy(pokedex[i].abls, token);
 
             token = strtok(NULL, ",");
             pokedex[i].weight = atof(token);
@@ -120,7 +131,7 @@ int main(){
         index = atoi(entrada)-1;
         if(lerEntrada(entrada)){
             if (strcmp(pokedex[index].ntypes, "TWO")){ //somente 1 tipo
-            printf("[#%d -> %s: %s - ['%s'] - [%s - %.1lf - %.1lf - %d%% - %s - %d gen] - %d/%d/%d\n", pokedex[index].id, pokedex[index].name, pokedex[index].desc, pokedex[index].type1, pokedex[index].abls, pokedex[index].weight, pokedex[index].height, pokedex[index].capRate, pokedex[index].isLeg, pokedex[index].gen, pokedex[index].dia, pokedex[index].mes, pokedex[index].ano);
+            printf("[#%d -> %s: %s - ['%s'] - %s - %.1lf - %.1lf - %d%% - %s - %d gen] - %d/%d/%d\n", pokedex[index].id, pokedex[index].name, pokedex[index].desc, pokedex[index].type1, pokedex[index].abls, pokedex[index].weight, pokedex[index].height, pokedex[index].capRate, pokedex[index].isLeg, pokedex[index].gen, pokedex[index].dia, pokedex[index].mes, pokedex[index].ano);
             } else { //2 tipos
                 printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lf - %.1lf - %d%% - %s - %d gen] - %d/%d/%d\n", pokedex[index].id, pokedex[index].name, pokedex[index].desc, pokedex[index].type1, pokedex[index].type2, pokedex[index].abls, pokedex[index].weight, pokedex[index].height, pokedex[index].capRate, pokedex[index].isLeg, pokedex[index].gen, pokedex[index].dia, pokedex[index].mes, pokedex[index].ano);
             }
@@ -132,4 +143,4 @@ int main(){
     fclose(file);
 
     return 0;
-}
+}*/
