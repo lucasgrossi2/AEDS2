@@ -10,7 +10,6 @@ typedef struct{
     char desc[1000];
     char type1[40];
     char type2[40];
-    char ntypes[40];
     char abls[200];
     double weight;
     double height;
@@ -123,17 +122,30 @@ int main(){
             } else {
                 strcpy(pokedex[i].isLeg, "false");
             }
-            pokedex[i]
-
-            
+            strcpy(pokedex[i].data, entreVirgs(readyString, 11));
         }    
+
+
+
     }
 
+    char entrada[20];
+    int index;
+    int end = 0;
 
-
-
-
-
+    do{
+        scanf("%s", entrada);
+        index = atoi(entrada)-1;
+        if(lerEntrada(entrada)){
+            if (pokedex[index].type2[0] == '\0'){ //somente 1 tipo
+            printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[index].id, pokedex[index].name, pokedex[index].desc, pokedex[index].type1, pokedex[index].abls, pokedex[index].weight, pokedex[index].height, pokedex[index].capRate, pokedex[index].isLeg, pokedex[index].gen, pokedex[index].data);
+            } else { //2 tipos
+                printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[index].id, pokedex[index].name, pokedex[index].desc, pokedex[index].type1, pokedex[index].type2, pokedex[index].abls, pokedex[index].weight, pokedex[index].height, pokedex[index].capRate, pokedex[index].isLeg, pokedex[index].gen, pokedex[index].data);
+            }
+        } else {
+            end++;
+        }
+    }while(end == 0);
 
     fclose(file);
     return 0;
