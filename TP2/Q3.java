@@ -1,7 +1,7 @@
 package TP2;
 
 import java.util.*;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +30,7 @@ class Main {
             if (input.equalsIgnoreCase("FIM")) {
                 break;
             }
+            
 
             try {
                 int id = Integer.parseInt(input);
@@ -110,7 +111,7 @@ class Pokemon {
     public void setCaptureDate(LocalDate captureDate) { this.captureDate = captureDate; }
 
     public void ler(String array) {
-        String[] dados = array.split(",(?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");
+        String[] dados = array.split("(,?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");
 
         setId(dados[0].isEmpty() ? 0 : Integer.parseInt(dados[0]));
         setGen(dados[1].isEmpty() ? 0 : Integer.parseInt(dados[1]));
@@ -151,36 +152,9 @@ class Pokemon {
     }
 
     public void imprimir() {
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("[#%d -> %s: %s - ", id, nome, description));
-
-        String typesStr = String.join(", ", types.stream()
-                                           .map(type -> "'" + type + "'")
-                                           .collect(Collectors.toList()));
-        sb.append("[").append(typesStr).append("] - ");
-
-        String abilitiesStr = String.join(", ", abilities.stream()
-                                                   .map(this::limparHabilidades)
-                                                   .collect(Collectors.toList()));
-        sb.append("[").append(abilitiesStr).append("] - ");
-    
-        sb.append(String.format("%.1fkg - %.1fm - %d%% - %s - %d gen] - %s%n",
-        weight, height, captureRate, isLegendary ? "true" : "false", gen, captureDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
-
-        System.out.print(sb.toString());
     }
 
-    private String limparHabilidades(String ability) {
-        ability = ability.trim();
-        ability = ability.replaceAll("^\"|\"$|'|'$", "");
-        ability = ability.replaceAll("[^a-zA-Z0-9 ]", "");
-        if (!ability.isEmpty()) {
-            return "'" + ability + "'";
-        } else {
-            return "";
-        }
-    }
 
     @Override
     public Pokemon clone() {

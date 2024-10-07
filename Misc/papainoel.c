@@ -33,7 +33,7 @@ int main() {
     char sinais[150][150];
     char pos[] = "+";
     scanf("%d", &total);
-    char *nomesCru[total + 1];
+    char **nomesCru = malloc((total + 1) * sizeof(char*));
 
     for (int i = 0; i < total; i++) {
         char temp[100];
