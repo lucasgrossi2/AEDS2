@@ -93,13 +93,50 @@ char *removerAbls(const char *str) {
     return new_str;
 }
 
+void swap(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void selectionSort(int intarray[], int tam){
+    for(int i=0; i<tam-1; i++){
+        int min = i;
+        for(int j=i+1; j<tam; j++ ){
+            if(intarray[j]<intarray[min]){
+                min = j;
+            }
+        }
+        swap(&intarray[i], &intarray[min]);
+    }
+
+}
+
+int binarySearch(int arr[], int size, int target) {
+    int left = 0, right = size - 1;
+    
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) {
+            return 1; 
+        }else if(arr[mid] < target) {
+            left = mid + 1;
+        }else{
+            right = mid - 1;
+        }
+    }
+    return 0;
+}
+
+
 int main(){
 
     system("cls");
 
     Pokemon pokedex[801];
 
-    FILE *file = fopen("/tmp/pokemon.csv", "r");
+    FILE *file = fopen("pokemon.csv", "r");
     char line[500];
     fgets(line, sizeof(line), file);
 
@@ -149,14 +186,16 @@ int main(){
     }while(end == 0);
 
     end = 0;
+    index = 0;
 
     do{
         scanf("%s", entrada);
         if(lerEntrada(entrada)){
             for(index = 0; index < 801; index++){
-                if(strcmp(entrada, pokedex[index].name)){
-                    listaNomes[index] = pokedex[atoi(entrada)].id; //colocar os nomes na lista de nomes ja convertidos para IDs
+                if(strcmp(entrada, pokedex[index].name) == 0){
+                    listaNomes[sizelistaNomes] = pokedex[index].id; //colocar os nomes na lista de nomes ja convertidos para IDs
                     sizelistaNomes++;
+                    break;
                 }
             }
         } else {
@@ -164,26 +203,15 @@ int main(){
         }
     }while(end == 0);
 
-    /*for(int i=0; i < sizelistaNomes; i++){
-        int igual = 0;
-        for(int j=0; j < sizelistaIDs; j++){
-            if(listaIDs[j] == listaNomes[i]){
-                printf("SIM\n");
-                igual++;
-                break;
-            }
-        }
-        if(igual==0){
+    selectionSort(listaIDs, sizelistaIDs);
+
+    for (int i = 0; i < sizelistaNomes; i++) {
+        if (binarySearch(listaIDs, sizelistaIDs, listaNomes[i])) {
+            printf("SIM\n");
+        } else {
             printf("NAO\n");
         }
-    }*/
-
-    printf("%d\n", sizelistaIDs);
-    printf("%d, %d, %d\n", listaNomes[0], listaNomes[1], listaNomes[2]);
-
-
-
-
+    }
 
     fclose(file);
     return 0;
