@@ -132,9 +132,9 @@ int binarySearch(int arr[], int size, int target) {
 
 int main(){
 
-    system("cls");
-
     Pokemon pokedex[801];
+
+    system("cls");
 
     FILE *file = fopen("pokemon.csv", "r");
     char line[500];
