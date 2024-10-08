@@ -106,14 +106,14 @@ char *removerAbls(const char *str)
 
     return new_str;
 }
-
-void selectionSort(Pokemon pokemonsInputados[], int n){
+ 
+void bubbleSort(Pokemon pokemonsInputados[], int n){
     for (int i = 0; i < n-1; i++){
-        for(int j = i+1; j < n; j++){
-            if(strcmp(pokemonsInputados[i].name, pokemonsInputados[j].name)>0){
-                Pokemon temp = pokemonsInputados[i];
-                pokemonsInputados[i] = pokemonsInputados[j];
-                pokemonsInputados[j] = temp;
+        for(int j = 0; j < n-i-1; j++){
+            if(pokemonsInputados[j].id > pokemonsInputados[j+1].id){
+                Pokemon temp = pokemonsInputados[j];
+                pokemonsInputados[j] = pokemonsInputados[j+1];
+                pokemonsInputados[j+1] = temp;
             }
         }
     }
@@ -131,8 +131,6 @@ int main()
     }
     char line[500];
     fgets(line, sizeof(line), file);
-
-    //printf("programa começou\n\n");
 
     for (int i = 0; i < 801; i++)
     {
@@ -162,14 +160,10 @@ int main()
         }
     }
 
-    //printf("alocou todos os dados em seus structs\n\n");
-
     int end = 0;
     char entrada[20];
     int nInputs = 0;
     Pokemon IDsInputados[801];
-
-    //printf("inicializou variaveis\n\n");
 
     while(end == 0){
         scanf("%s", entrada);
@@ -182,20 +176,15 @@ int main()
         }
     }
 
-    //printf("while terminou e colocou os structs inputados numa parte separada");
+    bubbleSort(IDsInputados, nInputs);
 
-    selectionSort(IDsInputados, nInputs);
+    for(int i = 0; i < nInputs; i++){
+        if (IDsInputados[i].type2[0] == '\0'){ //somente 1 tipo
+            printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", IDsInputados[i].id, IDsInputados[i].name, IDsInputados[i].desc, IDsInputados[i].type1, IDsInputados[i].abls, IDsInputados[i].weight, IDsInputados[i].height, IDsInputados[i].capRate, IDsInputados[i].isLeg, IDsInputados[i].gen, IDsInputados[i].data);
+        } else { //2 tipos
+            printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", IDsInputados[i].id, IDsInputados[i].name, IDsInputados[i].desc, IDsInputados[i].type1, IDsInputados[i].type2, IDsInputados[i].abls, IDsInputados[i].weight, IDsInputados[i].height, IDsInputados[i].capRate, IDsInputados[i].isLeg, IDsInputados[i].gen, IDsInputados[i].data);
+        }
 
-    //printf("selection sort rodou");
-
-  for(int i = 0; i < nInputs; i++){
-      if (IDsInputados[i].type2[0] == '\0'){ //somente 1 tipo
-          printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", IDsInputados[i].id, IDsInputados[i].name, IDsInputados[i].desc, IDsInputados[i].type1, IDsInputados[i].abls, IDsInputados[i].weight, IDsInputados[i].height, IDsInputados[i].capRate, IDsInputados[i].isLeg, IDsInputados[i].gen, IDsInputados[i].data);
-      } else { //2 tipos
-          printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", IDsInputados[i].id, IDsInputados[i].name, IDsInputados[i].desc, IDsInputados[i].type1, IDsInputados[i].type2, IDsInputados[i].abls, IDsInputados[i].weight, IDsInputados[i].height, IDsInputados[i].capRate, IDsInputados[i].isLeg, IDsInputados[i].gen, IDsInputados[i].data);
-      }
-
-  }
-
+    }
     return 0;
 }
