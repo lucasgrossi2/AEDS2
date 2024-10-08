@@ -93,13 +93,17 @@ char *removerAbls(const char *str) {
     return new_str;
 }
 
+int compareStrings(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
 int main(){
 
     system("cls");
 
     Pokemon pokedex[801];
 
-    FILE *file = fopen("/tmp/pokemon.csv", "r");
+    FILE *file = fopen("pokemon.csv", "r");
     char line[500];
     fgets(line, sizeof(line), file);
 
@@ -130,37 +134,58 @@ int main(){
     }
 
     char entrada[20];
-    int index;
+    int index;  
     int end = 0;
+    int IDsDesordenados[801];
+    char* nomes[801];
+    int IDsOrdenados[801];
+    int tamID = 0;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    do{
+    do {
         scanf("%s", entrada);
-        index = atoi(entrada)-1;
-        if(lerEntrada(entrada)){
-            if (pokedex[index].type2[0] == '\0'){ //somente 1 tipo
-            printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[index].id, pokedex[index].name, pokedex[index].desc, pokedex[index].type1, pokedex[index].abls, pokedex[index].weight, pokedex[index].height, pokedex[index].capRate, pokedex[index].isLeg, pokedex[index].gen, pokedex[index].data);
-            } else { //2 tipos
-                printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[index].id, pokedex[index].name, pokedex[index].desc, pokedex[index].type1, pokedex[index].type2, pokedex[index].abls, pokedex[index].weight, pokedex[index].height, pokedex[index].capRate, pokedex[index].isLeg, pokedex[index].gen, pokedex[index].data);
-            }
+        if (lerEntrada(entrada)) {
+            int id = atoi(entrada);
+            IDsDesordenados[tamID] = id;
+            tamID++;
         } else {
             end++;
         }
-    }while(end == 0);
+    } while (end == 0);
+
+    for (int i = 0; i < tamID; i++) {
+        int id = IDsDesordenados[i];
+        if (id >= 0 && id <= 801) { 
+            nomes[i] = (char *)malloc(strlen(pokedex[id].name) + 1);
+            strcpy(nomes[i], pokedex[id].name);
+        }
+    } 
+
+    qsort(nomes, tamID, sizeof(char *), compareStrings);
+
+    for (int i = 0; i < tamID; i++) {
+        for (int j = 0; j < tamID; j++) {
+            if (strcmp(nomes[i], pokedex[IDsDesordenados[j]].name) == 0) {
+                IDsOrdenados[i] = IDsDesordenados[j];
+                break; 
+            }
+        }
+    }
+
+
+    //printf("%d", tamID);
+
+    for(int i=0; i<tamID; i++){
+        if (pokedex[IDsOrdenados[i]].type2[0] == '\0'){ //somente 1 tipo
+            printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i]].id, pokedex[IDsOrdenados[i]].name, pokedex[IDsOrdenados[i]].desc, pokedex[IDsOrdenados[i]].type1, pokedex[IDsOrdenados[i]].abls, pokedex[IDsOrdenados[i]].weight, pokedex[IDsOrdenados[i]].height, pokedex[IDsOrdenados[i]].capRate, pokedex[IDsOrdenados[i]].isLeg, pokedex[IDsOrdenados[i]].gen, pokedex[IDsOrdenados[i]].data);
+        } else { //2 tipos
+            printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i]].id, pokedex[IDsOrdenados[i]].name, pokedex[IDsOrdenados[i]].desc, pokedex[IDsOrdenados[i]].type1, pokedex[IDsOrdenados[i]].type2, pokedex[IDsOrdenados[i]].abls, pokedex[IDsOrdenados[i]].weight, pokedex[IDsOrdenados[i]].height, pokedex[IDsOrdenados[i]].capRate, pokedex[IDsOrdenados[i]].isLeg, pokedex[IDsOrdenados[i]].gen, pokedex[IDsOrdenados[i]].data);
+        }
+    }
+
+    for (int i = 0; i < tamID; i++) {
+    free(nomes[i]);
+    }
 
     fclose(file);
     return 0;
