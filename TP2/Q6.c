@@ -3,7 +3,8 @@
 #include <string.h>
 #include <stdbool.h>
 
-typedef struct{
+typedef struct
+{
     int id;
     int gen;
     char name[160];
@@ -17,23 +18,31 @@ typedef struct{
     char isLeg[40];
     char data[20];
 
-}Pokemon;
+} Pokemon;
 
-bool lerEntrada(const char *entrada){
-    if(strcmp(entrada, "FIM") == 0){
+bool lerEntrada(const char *entrada)
+{
+    if (strcmp(entrada, "FIM") == 0)
+    {
         return false;
-    } else {
+    }
+    else
+    {
         return true;
     }
 }
 
-char *acharChar(const char *str, char character, int n){
+char *acharChar(const char *str, char character, int n)
+{
     int reps = 0;
-    while(*str != '\0'){
-        if(*str == character){
+    while (*str != '\0')
+    {
+        if (*str == character)
+        {
             reps++;
-            if(reps == n){
-                return (char*)str;
+            if (reps == n)
+            {
+                return (char *)str;
             }
         }
         str++;
@@ -41,20 +50,23 @@ char *acharChar(const char *str, char character, int n){
     return NULL;
 }
 
-char *entreVirgs(const char *str, int n) {
-    if (n == 0) {
+char *entreVirgs(const char *str, int n)
+{
+    if (n == 0)
+    {
         char *end = acharChar(str, ',', 1);
         size_t length = end - str;
         char *result = (char *)malloc(length + 1);
         strncpy(result, str, length);
-        result[length] = '\0'; 
+        result[length] = '\0';
         return result;
     }
 
     char *start = acharChar(str, ',', n);
     char *end = acharChar(start + 1, ',', 1);
-    if(end == NULL){
-        end = (char*)(str + strlen(str));
+    if (end == NULL)
+    {
+        end = (char *)(str + strlen(str));
     }
     size_t length = end - (start + 1);
     char *result = (char *)malloc(length + 1);
@@ -63,7 +75,8 @@ char *entreVirgs(const char *str, int n) {
     return result;
 }
 
-char *separarAbls(const char *str) {
+char *separarAbls(const char *str)
+{
 
     char *start = strchr(str, '\"');
     char *end = strchr(start + 1, '\"');
@@ -77,13 +90,14 @@ char *separarAbls(const char *str) {
     return substring;
 }
 
-char *removerAbls(const char *str) {
+char *removerAbls(const char *str)
+{
 
     char *start = strchr(str, '\"');
     char *end = strchr(start + 1, '\"');
 
-    int before_len = start - str;  
-    int after_len = strlen(end + 1); 
+    int before_len = start - str;
+    int after_len = strlen(end + 1);
 
     char *new_str = (char *)malloc(before_len + after_len + 1);
 
@@ -93,11 +107,8 @@ char *removerAbls(const char *str) {
     return new_str;
 }
 
-int compareStrings(const void *a, const void *b) {
-    return strcmp(*(const char **)a, *(const char **)b);
-}
-
-int main(){
+int main()
+{
 
     system("cls");
 
@@ -107,8 +118,10 @@ int main(){
     char line[500];
     fgets(line, sizeof(line), file);
 
-    for(int i=0; i<801; i++){
-        if(fgets(line, sizeof(line), file)){
+    for (int i = 0; i < 801; i++)
+    {
+        if (fgets(line, sizeof(line), file))
+        {
             strcpy(pokedex[i].abls, separarAbls(line));
             char *readyString = removerAbls(line);
 
@@ -121,72 +134,95 @@ int main(){
             pokedex[i].weight = atof(entreVirgs(readyString, 7));
             pokedex[i].height = atof(entreVirgs(readyString, 8));
             pokedex[i].capRate = atoi(entreVirgs(readyString, 9));
-            if(atoi(entreVirgs(readyString, 10)) == 1){
+            if (atoi(entreVirgs(readyString, 10)) == 1)
+            {
                 strcpy(pokedex[i].isLeg, "true");
-            } else {
+            }
+            else
+            {
                 strcpy(pokedex[i].isLeg, "false");
             }
             strcpy(pokedex[i].data, entreVirgs(readyString, 11));
-        }    
-
-
-
+        }
     }
 
     char entrada[20];
-    int index;  
+    int index;
     int end = 0;
     int IDsDesordenados[801];
-    char* nomes[801];
+    char *nomes[801];
     int IDsOrdenados[801];
     int tamID = 0;
 
-
-    do {
+    do
+    {
         scanf("%s", entrada);
-        if (lerEntrada(entrada)) {
+        if (lerEntrada(entrada))
+        {
             int id = atoi(entrada);
             IDsDesordenados[tamID] = id;
             tamID++;
-        } else {
+        }
+        else
+        {
             end++;
         }
     } while (end == 0);
 
-    for (int i = 0; i < tamID; i++) {
+    printf("saiu do scanf\n");
+
+    for (int i = 0; i < tamID; i++)
+    {
         int id = IDsDesordenados[i];
-        if (id >= 0 && id <= 801) { 
+        if (id >= 0 && id <= 801)
+        {
             nomes[i] = (char *)malloc(strlen(pokedex[id].name) + 1);
             strcpy(nomes[i], pokedex[id].name);
         }
-    } 
+    }
 
-    qsort(nomes, tamID, sizeof(char *), compareStrings);
+    printf("transformou os ids em nomes\n");
 
-    for (int i = 0; i < tamID; i++) {
-        for (int j = 0; j < tamID; j++) {
-            if (strcmp(nomes[i], pokedex[IDsDesordenados[j]].name) == 0) {
-                IDsOrdenados[i] = IDsDesordenados[j];
-                break; 
+    for (int i = 0; i < tamID; i++)
+    {
+        for (int j = i + 1; j < tamID; j++)
+        {
+            if (strcmp(nomes[i], nomes[j]) > 0)
+            {
+                char *temp = nomes[i];
+                strcpy(nomes[i], nomes[j]);
+                strcpy(nomes[j], temp);
             }
         }
     }
 
+    for(int i; i<tamID; i++){
+        printf("%s, ", nomes[i]);
+    }
 
-    //printf("%d", tamID);
+
+    /*for (int i = 1; i < tamID+1; i++)
+    {
+        if (pokedex[IDsOrdenados[i - 1]].type2[0] == '\0')
+        { // somente 1 tipo
+            printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i - 1]].id, pokedex[IDsOrdenados[i - 1]].name, pokedex[IDsOrdenados[i - 1]].desc, pokedex[IDsOrdenados[i - 1]].type1, pokedex[IDsOrdenados[i - 1]].abls, pokedex[IDsOrdenados[i - 1]].weight, pokedex[IDsOrdenados[i - 1]].height, pokedex[IDsOrdenados[i - 1]].capRate, pokedex[IDsOrdenados[i - 1]].isLeg, pokedex[IDsOrdenados[i - 1]].gen, pokedex[IDsOrdenados[i - 1]].data);
+        }
+        else
+        { // 2 tipos
+            printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i - 1]].id, pokedex[IDsOrdenados[i - 1]].name, pokedex[IDsOrdenados[i - 1]].desc, pokedex[IDsOrdenados[i - 1]].type1, pokedex[IDsOrdenados[i - 1]].type2, pokedex[IDsOrdenados[i - 1]].abls, pokedex[IDsOrdenados[i - 1]].weight, pokedex[IDsOrdenados[i - 1]].height, pokedex[IDsOrdenados[i - 1]].capRate, pokedex[IDsOrdenados[i - 1]].isLeg, pokedex[IDsOrdenados[i - 1]].gen, pokedex[IDsOrdenados[i - 1]].data);
+        }
+    }*/
 
     for(int i=0; i<tamID; i++){
-        if (pokedex[IDsOrdenados[i]].type2[0] == '\0'){ //somente 1 tipo
-            printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i]].id, pokedex[IDsOrdenados[i]].name, pokedex[IDsOrdenados[i]].desc, pokedex[IDsOrdenados[i]].type1, pokedex[IDsOrdenados[i]].abls, pokedex[IDsOrdenados[i]].weight, pokedex[IDsOrdenados[i]].height, pokedex[IDsOrdenados[i]].capRate, pokedex[IDsOrdenados[i]].isLeg, pokedex[IDsOrdenados[i]].gen, pokedex[IDsOrdenados[i]].data);
-        } else { //2 tipos
-            printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i]].id, pokedex[IDsOrdenados[i]].name, pokedex[IDsOrdenados[i]].desc, pokedex[IDsOrdenados[i]].type1, pokedex[IDsOrdenados[i]].type2, pokedex[IDsOrdenados[i]].abls, pokedex[IDsOrdenados[i]].weight, pokedex[IDsOrdenados[i]].height, pokedex[IDsOrdenados[i]].capRate, pokedex[IDsOrdenados[i]].isLeg, pokedex[IDsOrdenados[i]].gen, pokedex[IDsOrdenados[i]].data);
-        }
+    if (pokedex[IDsOrdenados[i]].type2[0] == '\0'){ //somente 1 tipo
+        printf("[#%d -> %s: %s - ['%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i]].id, pokedex[IDsOrdenados[i]].name, pokedex[IDsOrdenados[i]].desc, pokedex[IDsOrdenados[i]].type1, pokedex[IDsOrdenados[i]].abls, pokedex[IDsOrdenados[i]].weight, pokedex[IDsOrdenados[i]].height, pokedex[IDsOrdenados[i]].capRate, pokedex[IDsOrdenados[i]].isLeg, pokedex[IDsOrdenados[i]].gen, pokedex[IDsOrdenados[i]].data);
+    } else { //2 tipos
+        printf("[#%d -> %s: %s - ['%s', '%s'] - %s - %.1lfkg - %.1lfm - %d%% - %s - %d gen] - %s", pokedex[IDsOrdenados[i]].id, pokedex[IDsOrdenados[i]].name, pokedex[IDsOrdenados[i]].desc, pokedex[IDsOrdenados[i]].type1, pokedex[IDsOrdenados[i]].type2, pokedex[IDsOrdenados[i]].abls, pokedex[IDsOrdenados[i]].weight, pokedex[IDsOrdenados[i]].height, pokedex[IDsOrdenados[i]].capRate, pokedex[IDsOrdenados[i]].isLeg, pokedex[IDsOrdenados[i]].gen, pokedex[IDsOrdenados[i]].data);
+    }
     }
 
-    for (int i = 0; i < tamID; i++) {
-    free(nomes[i]);
+    for (int i = 0; i < tamID; i++)
+    {
+        free(nomes[i]);
     }
-
-    fclose(file);
-    return 0;
 }
