@@ -1,0 +1,95 @@
+public class LFbasico{
+    
+    class Celula {
+        public int elemento;
+        public Celula prox;
+    
+    
+
+        public Celula() {
+            this(0);
+        }
+    
+        public Celula(int elemento) {
+          this.elemento = elemento;
+          this.prox = null;
+        }
+    }
+
+    class Lista{
+        Celula primeiro, ultimo;
+        Lista(){
+            ultimo = primeiro = new Celula();
+        }
+        void InserirFim(int x){
+            ultimo.prox = new Celula(x);
+            ultimo = ultimo.prox;
+        }
+        void InserirInicio(int x){
+            Celula tmp = new Celula(x);
+            tmp.prox = primeiro.prox;
+            primeiro.prox = tmp;
+            if(primeiro == ultimo){
+                ultimo = tmp;
+            }
+        }
+        int RemoverFim(){
+            Celula i = ultimo;
+            while(ultimo.prox != null){
+                i = ultimo;
+                ultimo = ultimo.prox;
+            }
+            int elemento = ultimo.elemento;
+            ultimo = i;
+            i.prox = null;
+            return elemento;
+        }
+        int RemoverInicio(){
+            Celula tmp = primeiro;
+            primeiro = primeiro.prox;
+            int elemento = tmp.elemento;
+            tmp = null;
+            return elemento;
+        }
+        void Inserir(int x, int pos){
+            int tamanho = tamanho();
+            if(pos <= tamanho && pos > 0){
+                Celula tmp = new Celula(x);
+                Celula i = primeiro;
+                for(int j=0; j<pos; j++, i = i.prox);
+                tmp.prox = i.prox;
+                i.prox = tmp;
+            }
+        }
+        int Remover(int pos){
+            int tamanho = tamanho();
+            int elemento = 0;
+            if(pos <= tamanho && pos > 0){
+                Celula i = primeiro;
+                for(int j=0; j<pos; j++, i = i.prox);
+                Celula tmp = i.prox;
+                elemento = tmp.elemento;
+                i.prox = tmp.prox;
+                tmp.prox = null;
+            }
+        return elemento;
+        }      
+        public void mostrar() {
+            System.out.print("[ ");
+            for (Celula i = primeiro.prox; i != null; i = i.prox) {
+                System.out.print(i.elemento + " ");
+            }
+            System.out.println("] ");
+        }
+        int tamanho() {
+            int tamanho = 0; 
+            for(Celula i = primeiro; i != ultimo; i = i.prox, tamanho++);
+            return tamanho;
+        }
+
+
+        public static void main(String[] args){
+
+        }
+    }
+}
