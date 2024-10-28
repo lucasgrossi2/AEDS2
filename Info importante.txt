@@ -8,4 +8,6 @@ compilar arquivo java no vs code: javac [nome].java /// Se não der certo, tenta
  
 rodar arquivo java no vs code: java [nome do pacote].[nome do programa] /// lembra de mover um diretorio acima do pacote que ele irá procurar
 
+abrir postgre: sudo -i -u postgres /// senha: dedeco30
+
 
