@@ -1,8 +1,10 @@
-compilar programa C no vscode com minGW instalado: gcc [nome].c -o [nome]
-
-compilar programa em C no vsCode sem o minGW instalado: gcc -o [nome] [nome].c -mconsole /// Se não der certo, tirar o -mconsole do final
+compilar programa C no vscode ou terminal: gcc [nome].c -o [nome]
 
 rodar arquivo C no vscode: ./[nome].exe 
+
+rodar arquivo C no terminal usando pub.in: ./[nome] <pub.in>saida.out  /// pub.in e saida.out são os nomes dos arquivos txt
+
+comparar 
 
 compilar arquivo java no vs code: javac [nome].java /// Se não der certo, tentar: javac -d . [nome].java
  
