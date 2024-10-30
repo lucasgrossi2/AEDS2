@@ -3,7 +3,6 @@
 #include <string.h>
 
 void scanforN(int *n, int *eof){
-    int result = 0;
     if(scanf("%d", n)==EOF){;
         (*eof)++;
     }
