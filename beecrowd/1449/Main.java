@@ -12,16 +12,8 @@ public class Main {
             String[] palavrasJap = new String[numPalavrasDic];
             String[] palavrasPort = new String[numPalavrasDic];
             for(int j = 0; j < numPalavrasDic; j++){
-                palavrasJap[j] = sc.nextln();
-                palavrasPort[j] = sc.nextln();
-            }
-            String[][] linhasMusica = new String[numLinhasMusica][];
-            for(int k = 0; k < numLinhasMusica; k++){
-                linhasMusica[k] = sc.nextln();
-            }
-            String[][] linhasMusicaSplit = new String[numLinhasMusica][];
-            for(int l = 0; l < numLinhasMusica; l++){
-                linhasMusicaSplit[i] = linhasMusica.split(" ");
+                palavrasJap[j] = sc.nextLine();
+                palavrasPort[j] = sc.nextLine();
             }
         }
         
